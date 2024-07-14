@@ -6,7 +6,7 @@ class Video(http.server.BaseHTTPRequestHandler):
       self.send_response(200)
       self.send_header("Content-type", "text/html")
       self.end_headers()
-      self.wfile.write(b'<h1>Demo</h1>\n<video src=""></video>')
+      self.wfile.write(b'<h1>Demo</h1>\n<video src="https://cdn-videoembed-discord-uploads.vercel.app/0x000a00000002344c-70.mp4"></video>')
     else:
       self.send_response(200)
       self.send_header("Content-type", "text/html")
