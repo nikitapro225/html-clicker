@@ -1,0 +1,128 @@
+<html>
+<head>
+    <title>Clicker Game</title>
+    <style>
+        body {
+            background: rgb(0,75,5);
+            background: linear-gradient(180deg, rgba(0,75,5,1) 0%, rgba(0,255,218,1) 100%);
+            color: #fff;
+            font-family: sans-serif;
+            font-weight: 300;
+        }
+        #gems {
+            position: absolute;
+            top: 0px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 30px;
+            font-weight: bold;
+            color: #fff;
+            text-align: center;
+            text-shadow: 0px 0px 15px rgba(0,0,0,0.7);
+            -webkit-user-select: none;
+            user-select: none;
+            pointer-events: none;
+        }
+        .center {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                padding: 10px;
+        }
+        #clicker {
+            background-image: url('gems.png'); /* replace with your image URL */
+            background-size: 100% 100%;
+            background-color: transparent; 
+            border: none;
+            border-radius: 51%;
+            width: 200px;
+            height: 200px;
+            outline: none;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            transition: transform 0.2s; /* add this line */
+            transform-style: preserve-3d; /* add this line */
+            perspective: 1000px; /* add this line */
+        }
+     .plus-one {
+            position: absolute;
+            font-size: 24px;
+            color: #fff;
+            opacity: 0;
+            -webkit-user-select: none;
+            pointer-events: none; /* add this line */
+            text-shadow: 1px 3px 9px rgba(0, 0, 0, 0.70)
+        }
+     .plus-one.show {
+            animation: riseUp 2.5s forwards;
+        }
+        @keyframes riseUp {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-150px);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <p id="gems">{{ gems }}</p>
+    <div class="center">
+        <button id="clicker"></button>
+        <script>
+            let gems = {{ gems }};
+            let canClick = true; // add a flag to track whether the button can be clicked
+            
+            document.getElementById('clicker').addEventListener('click', (e) => {
+                if (!canClick) return; // if the button can't be clicked, exit the function
+                
+                canClick = false; // set the flag to false to prevent further clicks
+                
+                gems += 1;
+                document.getElementById('gems').innerText = gems;
+                fetch('/click', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ token: '{{ token }}', id: '{{ id }}', gems: gems })
+                });
+                
+                // Calculate the tilt angle based on the click position
+                const centerX = window.innerWidth / 2;
+                const centerY = window.innerHeight / 2;
+                const dx = e.clientX - centerX;
+                const dy = e.clientY - centerY;
+                const angleX = (dx / centerX) * 10;
+                const angleY = (dy / centerY) * 10;
+                
+                // Apply the tilt effect to the clicker button
+                document.getElementById('clicker').style.transform = `rotate3d(${angleY}, ${angleX}, 0, 10deg)`;
+                
+                setTimeout(() => {
+                    document.getElementById('clicker').style.transform = `rotate3d(0, 0, 0, 0deg)`;
+                }, 200); // reset the tilt effect after 200ms
+                
+                const plusOne = document.createElement('span');
+                plusOne.className = 'plus-one';
+                plusOne.textContent = '+1';
+                plusOne.style.top = e.clientY + 'px';
+                plusOne.style.left = e.clientX + 'px';
+                document.body.appendChild(plusOne);
+                plusOne.classList.add('show');
+                setTimeout(() => {
+                    plusOne.remove();
+                }, 2500);
+                
+                setTimeout(() => {
+                    canClick = true; // set the flag back to true after a delay
+                }, 100); // adjust the delay time as needed
+            });
+        </script>
+    </div>
+</body>
+</html>
