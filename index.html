@@ -24,23 +24,19 @@
         padding: 15px 32px;
         text-align: center;
         text-decoration: none;
-        display: inline-block;
+        display: inline-block; /* changed from block to inline-block */
         font-size: 14px;
-        margin: 4px 2px;
+        margin: 4px 20px; /* added margin to space out buttons */
         border-radius: 25px;
         border: 2px solid #ffffff;
         background-color: transparent;
         transition-duration: 0.3s;
         cursor: pointer;
-        position: absolute;
-        transform: translate(-50%, -60%);
-        /*top: 100%;
-        left: 45%;
-        transform: translate(-50%, -50%);*/
       }
+
       @media (hover: hover) {
         button:hover {
-            transform: scale(1.2) translate(-40%, -50%);
+            transform: scale(1.2);/*translate(-40%, -50%);*/
             cursor: pointer;
         }
       }
