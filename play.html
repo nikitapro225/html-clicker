@@ -75,6 +75,7 @@
         <button id="clicker"></button>
         <script>
             let gems = parseInt(getCookie('gems')) || 0; // get the gem count from the cookie, or set it to 0 if it doesn't exist
+            document.getElementById('gems').innerText = gems;
             let canClick = true; // add a flag to track whether the button can be clicked
             
             document.getElementById('clicker').addEventListener('click', (e) => {
@@ -114,7 +115,7 @@
                 
                 setTimeout(() => {
                     canClick = true; // set the flag back to true after a delay
-                }, 100); // adjust the delay time as needed
+                }, 1); // adjust the delay time as needed
             });
             
             // cookie functions
