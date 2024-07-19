@@ -142,4 +142,11 @@ body{
         border-radius: 50%;
     }
 }
-      
+@media only screen and (max-width: 768px) {
+    .context h1{
+        font-size: 30px;
+    }
+    .context h2{
+        font-size: 20px;
+    }
+}
