@@ -144,9 +144,11 @@ body{
 }
 @media only screen and (max-width: 768px) {
     .context h1{
-        font-size: 30px;
+        font-size: 25px;
+        font-width: 900;
     }
     .context h2{
-        font-size: 20px;
+        font-size: 15px;
+        font-width: 600;
     }
 }
